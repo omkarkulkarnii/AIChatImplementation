@@ -3,6 +3,8 @@ const env = require('dotenv');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const bodyParser = require('body-parser'); 
 const cors = require('cors')
+const path = require('path');
+
 
 const app = express();
 env.config('./.env');
