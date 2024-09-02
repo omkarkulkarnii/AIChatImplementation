@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/4570e87a-2897-4965-be71-1b3d8aef9a4c/resourceGroups/aichatimplementation_group/providers/Microsoft.Web/sites/aichatimplementation",
+    "appService.deploySubpath": "backend"
+}
