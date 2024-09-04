@@ -16,7 +16,7 @@ const generationConfig = {
   temperature: 0.5,
   topP: 0.95,
   topK: 64,
-  maxOutputTokens: 80,
+  maxOutputTokens: 200,
   responseMimeType: "text/plain",
 };
 
@@ -47,11 +47,6 @@ app.post('/api/messages', async (req, res) => {
 
 //   app.
 // }
-
-app.use(express.static("../frontend/dist"))
-app.get("*", (req,res) => {
-  res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"))
-})
 
 
 
