@@ -48,6 +48,10 @@ app.post('/api/messages', async (req, res) => {
 //   app.
 // }
 
+app.use(express.static("./frontend/dist"));
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "frontend", "index.html"))
+})
 
 
 
