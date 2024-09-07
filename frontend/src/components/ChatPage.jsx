@@ -49,7 +49,7 @@ const ChatPage = () => {
 
       try {
         const response = await axios.post(
-          "https://ai-chat.azurewebsites.net/api/messages",
+          "https://aichatimplementationtry.azurewebsites.net/api/messages",
           {
             message: inputValue,
           }
