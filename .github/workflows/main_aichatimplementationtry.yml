@@ -1,67 +1,32 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
-name: Build and deploy Node.js app to Azure Web App - aichatimplementationtry
-
-on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
-
-jobs:
-  build:
-    runs-on: windows-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Node.js version
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18.x'
-
-      - name: Install, Build, and Test
-        run: |
-          set -e
-          npm install
-          
-          if npm run build --if-present; then
-            echo "Build completed successfully."
-          else
-            echo "Build step not found or failed, continuing..."
-          fi
-
-          if npm run test --if-present; then
-            echo "Tests completed successfully."
-          else
-            echo "No tests specified or tests failed, continuing..."
-          fi
-      
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v4
-        with:
-          name: node-app
-          path: .
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+- name: Install, Build, and Test
+  run: |
+    npm install
     
-    steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v4
-        with:
-          name: node-app
-      
-      - name: 'Deploy to Azure Web App'
-        uses: azure/webapps-deploy@v3
-        id: deploy-to-webapp
-        with:
-          app-name: 'aichatimplementationtry'
-          slot-name: 'Production'
-          package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_9209ABD0DF124E16972AF450D4BC0B11 }}
+    if ($env:OS -eq 'Windows_NT') {
+        npm run build --if-present
+        if ($LASTEXITCODE -eq 0) {
+            Write-Host "Build completed successfully."
+        } else {
+            Write-Host "Build step not found or failed, continuing..."
+        }
+
+        npm run test --if-present
+        if ($LASTEXITCODE -eq 0) {
+            Write-Host "Tests completed successfully."
+        } else {
+            Write-Host "No tests specified or tests failed, continuing..."
+        }
+    } else {
+        set -e
+        if npm run build --if-present; then
+            echo "Build completed successfully."
+        else
+            echo "Build step not found or failed, continuing..."
+        fi
+
+        if npm run test --if-present; then
+            echo "Tests completed successfully."
+        else
+            echo "No tests specified or tests failed, continuing..."
+        fi
+    }
